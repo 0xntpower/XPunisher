@@ -1,7 +1,8 @@
 package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
-import com.nort721.xpunisher.enums.AccessLevel;
+import com.nort721.xpunisher.data.LoggedUser;
+import com.nort721.xpunisher.data.enums.AccessLevel;
 import com.nort721.xpunisher.utils.MongoUtil;
 import com.nort721.xpunisher.utils.TranslationUtil;
 
@@ -54,6 +55,8 @@ public class LoginGUI extends JFrame {
 
                 if (MongoUtil.isUserCorrect(username, password) != AccessLevel.NONE) {
                     JOptionPane.showMessageDialog(null, "Welcome " + username, "Approved", JOptionPane.INFORMATION_MESSAGE);
+                    XPunisher.loggedUser = new LoggedUser(username, AccessLevel.ADMIN);
+                    setVisible(false);
                     controlPanel = new ControlPanel();
                 } else {
                     JOptionPane.showMessageDialog(null, "Incorrect username or password " + username, "Denied", JOptionPane.INFORMATION_MESSAGE);

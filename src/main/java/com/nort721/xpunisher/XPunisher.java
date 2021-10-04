@@ -1,5 +1,6 @@
 package com.nort721.xpunisher;
 
+import com.nort721.xpunisher.data.LoggedUser;
 import com.nort721.xpunisher.menus.LoginGUI;
 
 import javax.swing.*;
@@ -12,6 +13,8 @@ public class XPunisher {
 
     public static final ArrayList<JLabel> LABELS = new ArrayList<>();
     public static final ArrayList<JButton> BUTTONS = new ArrayList<>();
+
+    public static LoggedUser loggedUser;
 
     public static void main(String[] args) {
         LoginGUI loginGUI = new LoginGUI();
