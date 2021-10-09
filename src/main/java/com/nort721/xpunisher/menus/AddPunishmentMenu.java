@@ -1,21 +1,27 @@
 package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
+import com.nort721.xpunisher.data.enums.AccessLevel;
 import com.nort721.xpunisher.data.enums.Language;
 import com.nort721.xpunisher.utils.TranslationUtil;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 public class AddPunishmentMenu extends JFrame {
     private JPanel panel1;
     private JTextField textField1;
     private JTextField textField2;
     private JButton addButton;
-    private JTextField textField3;
-    private JTextField textField4;
     private JComboBox comboBoxDuration;
     private JTextField textFieldDuration;
     private JLabel durationLabel;
@@ -25,6 +31,8 @@ public class AddPunishmentMenu extends JFrame {
     private JLabel reasonLabel;
     private JLabel dateLabel;
     private JLabel punishmentLabel;
+    private JComboBox reasonComboBox;
+    private JFormattedTextField dateFormattedTextField1;
 
     public AddPunishmentMenu() {
         super("XPunisher - Add Punishment");
@@ -34,29 +42,37 @@ public class AddPunishmentMenu extends JFrame {
 
         XPunisher.LABELS.add(usernameLabel);
         XPunisher.LABELS.add(steamIdLabel);
-        XPunisher.LABELS.add(reasonLabel);
         XPunisher.LABELS.add(dateLabel);
         XPunisher.LABELS.add(punishmentLabel);
         XPunisher.LABELS.add(durationLabel);
         XPunisher.BUTTONS.add(addButton);
         XPunisher.BUTTONS.add(cancelButton);
 
-        String[] items = {"warning", "ban"};
+        String[] punishmentItems = {"warning", "ban", "kick"};
+        String[] reasonItems = {"RDM", "VDM", "NLR", "Revenge kill", "Team kill", "FailRP", "FearRP", "PowerGaming",
+                "None RP driving", "MetaGaming", "AutoEat", "CombatLog", "CopBaiting", "Farming", "Break character", "Job abuse", "Disrespect staff/player"};
+
+        dateFormattedTextField1.setFormatterFactory(new DefaultFormatterFactory(new DateFormatter()));
 
         if (TranslationUtil.currentLanguage == Language.HEBREW) {
             for (JLabel label : XPunisher.LABELS)
                 label.setText(TranslationUtil.convertToHebrew(label.getText()));
             for (JButton button : XPunisher.BUTTONS)
                 button.setText(TranslationUtil.convertToHebrew(button.getText() + ""));
-            for (int i = 0; i < items.length; i++)
-                items[i] = TranslationUtil.convertToHebrew(items[i]);
+            for (int i = 0; i < punishmentItems.length; i++)
+                punishmentItems[i] = TranslationUtil.convertToHebrew(punishmentItems[i]);
+//            for (int i = 0; i < reasonItems.length; i++)
+//                reasonItems[i] = TranslationUtil.convertToHebrew(reasonItems[i]);
         }
 
         durationLabel.setVisible(false);
         textFieldDuration.setVisible(false);
 
-        for (String str : items)
+        for (String str : punishmentItems)
             comboBoxDuration.addItem(str);
+
+        for (String str : reasonItems)
+            reasonComboBox.addItem(str);
 
         add(panel1);
         pack();
@@ -79,6 +95,9 @@ public class AddPunishmentMenu extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (XPunisher.loggedUser.getAccessLevel().getAccessId() < AccessLevel.MANAGER.getAccessId()) {
+                    // make punishment pending
+                }
                 // check if the player has a document, if he has then add punishment to document, if he doesn't create a new one
             }
         });

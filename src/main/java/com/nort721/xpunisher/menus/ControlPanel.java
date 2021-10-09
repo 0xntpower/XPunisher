@@ -37,8 +37,6 @@ public class ControlPanel extends JFrame {
         XPunisher.BUTTONS.add(searchButton);
         XPunisher.BUTTONS.add(addPunishmentButton);
 
-        int accessLevelID = XPunisher.loggedUser.getAccessLevel().getAccessId();
-
         String[] items = {"By name", "By SteamID", "By Punish Reason"};
 
         if (TranslationUtil.currentLanguage == Language.HEBREW) {
@@ -52,10 +50,6 @@ public class ControlPanel extends JFrame {
         }
 
         accessLevelLabel.setText(accessLevelLabel.getText() + " " + XPunisher.loggedUser.getAccessLevel().getName());
-
-        if (accessLevelID >= AccessLevel.ADMIN.getAccessId()) {
-            // remove here all items that admins shouldn't access
-        }
 
         for (String str : items)
             comboBox1.addItem(str);

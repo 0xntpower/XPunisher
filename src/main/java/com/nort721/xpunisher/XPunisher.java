@@ -4,6 +4,7 @@ import com.nort721.xpunisher.data.LoggedUser;
 import com.nort721.xpunisher.menus.LoginGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class XPunisher {
@@ -18,5 +19,7 @@ public class XPunisher {
 
     public static void main(String[] args) {
         LoginGUI loginGUI = new LoginGUI();
+        Image icon = Toolkit.getDefaultToolkit().getImage("D:\\XPunisher.png");
+        loginGUI.setIconImage(icon);
     }
 }
