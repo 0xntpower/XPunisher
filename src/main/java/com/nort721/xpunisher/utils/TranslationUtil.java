@@ -23,6 +23,17 @@ public class TranslationUtil {
         translations.add(new TextData("לפי שם", "By name"));
         translations.add(new TextData("לפי סטים איידי", "By SteamID"));
         translations.add(new TextData("לפי סיבת הענשה", "By Punish Reason"));
+        translations.add(new TextData("סטים איידי:", "steamId:"));
+        translations.add(new TextData("סיבה:", "reason:"));
+        translations.add(new TextData("תאריך:", "date:"));
+        translations.add(new TextData("הענשה:", "punishment:"));
+        translations.add(new TextData("משך הענשה:", "duration:"));
+        translations.add(new TextData("הוסף", "Add"));
+        translations.add(new TextData("ביטול", "Cancel"));
+        translations.add(new TextData("באן", "ban"));
+        translations.add(new TextData("אזהרה", "warning"));
+        translations.add(new TextData("", ""));
+        translations.add(new TextData("", ""));
         translations.add(new TextData("", ""));
     }
 
@@ -32,7 +43,7 @@ public class TranslationUtil {
             if (textData.getEnglish().equals(msg))
                 return textData.getHebrew();
         }
-        return "translation error";
+        return msg;
     }
 
     public String convertToEnglish(String msg) {
@@ -41,6 +52,6 @@ public class TranslationUtil {
             if (textData.getHebrew().equals(msg))
                 return textData.getEnglish();
         }
-        return "translation error";
+        return msg;
     }
 }

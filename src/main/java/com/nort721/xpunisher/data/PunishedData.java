@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -13,5 +13,5 @@ public class PunishedData {
     private String username;
     private int points;
     private String steamID;
-    private ArrayList<Punishment> punishments;
+    private List<Punishment> punishments;
 }

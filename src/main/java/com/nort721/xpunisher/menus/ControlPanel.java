@@ -3,6 +3,7 @@ package com.nort721.xpunisher.menus;
 import com.nort721.xpunisher.XPunisher;
 import com.nort721.xpunisher.data.LoggedUser;
 import com.nort721.xpunisher.data.PunishedData;
+import com.nort721.xpunisher.data.Punishment;
 import com.nort721.xpunisher.data.enums.AccessLevel;
 import com.nort721.xpunisher.data.enums.Language;
 import com.nort721.xpunisher.data.enums.SearchType;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class ControlPanel extends JFrame {
 
@@ -49,7 +51,7 @@ public class ControlPanel extends JFrame {
             accessLevelLabel.setText(TranslationUtil.convertToHebrew(accessLevelLabel.getText()));
         }
 
-        accessLevelLabel.setText(accessLevelLabel.getText() + XPunisher.loggedUser.getAccessLevel().getName());
+        accessLevelLabel.setText(accessLevelLabel.getText() + " " + XPunisher.loggedUser.getAccessLevel().getName());
 
         if (accessLevelID >= AccessLevel.ADMIN.getAccessId()) {
             // remove here all items that admins shouldn't access
@@ -70,18 +72,22 @@ public class ControlPanel extends JFrame {
 
                 PunishedData punishedData = MongoUtil.getPunishedPlayerDataByUsername(textField1.getText(), SearchType.getByName(String.valueOf(comboBox1.getSelectedItem())));
 
+                punishedData = new PunishedData("Nort721", 100, "123456",
+                        Arrays.asList(new Punishment(), new Punishment()));
+
                 if (punishedData == null) {
                     JOptionPane.showMessageDialog(null, "Player not found", "Operation failed", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
+                PlayerDataMenu playerDataMenu = new PlayerDataMenu(punishedData);
             }
         });
 
         addPunishmentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                AddPunishmentMenu addPunishmentMenu = new AddPunishmentMenu();
             }
         });
     }
