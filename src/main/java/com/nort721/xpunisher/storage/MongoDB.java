@@ -16,8 +16,7 @@ public class MongoDB {
     private MongoDatabase database;
 
     private MongoCollection usersCollection;
-    private MongoCollection punishedCollection;
-    private MongoCollection pendingPunishedCollection;
+    private MongoCollection playersCollection;
 
     public MongoDB() {
         try {
@@ -35,7 +34,7 @@ public class MongoDB {
 
             // get the collections from the database (like SQL tables)
             usersCollection = database.getCollection("users");
-            punishedCollection = database.getCollection("punished");
+            playersCollection = database.getCollection("players");
 
         } catch (Exception e) {
             System.out.println("&cDisabling due to issues with mongo database.");
