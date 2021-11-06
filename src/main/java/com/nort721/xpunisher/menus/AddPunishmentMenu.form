@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="f3a52" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="f3a52" class="javax.swing.JTextField" binding="steamIdTextField">
         <constraints>
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -16,7 +16,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="7235a" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="7235a" class="javax.swing.JTextField" binding="playerNameTextField">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -52,12 +52,12 @@
           <text value="steamId:"/>
         </properties>
       </component>
-      <component id="c10ee" class="javax.swing.JLabel" binding="usernameLabel">
+      <component id="c10ee" class="javax.swing.JLabel" binding="playerNameLabel">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="username:"/>
+          <text value="playerName:"/>
         </properties>
       </component>
       <vspacer id="6742d">
@@ -124,7 +124,7 @@
           <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="44501" class="javax.swing.JComboBox" binding="comboBoxDuration">
+      <component id="44501" class="javax.swing.JComboBox" binding="comboBoxPunishment">
         <constraints>
           <grid row="19" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -189,7 +189,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="baac0" class="javax.swing.JFormattedTextField" binding="dateFormattedTextField1">
+      <component id="394fe" class="javax.swing.JTextField" binding="dateTextField">
         <constraints>
           <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>

@@ -1,38 +1,37 @@
 package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
+import com.nort721.xpunisher.data.PlayerData;
+import com.nort721.xpunisher.data.Punishment;
 import com.nort721.xpunisher.data.enums.AccessLevel;
 import com.nort721.xpunisher.data.enums.Language;
+import com.nort721.xpunisher.data.enums.PunishType;
+import com.nort721.xpunisher.utils.MongoUtil;
 import com.nort721.xpunisher.utils.TranslationUtil;
+import com.nort721.xpunisher.utils.console.Console;
+import com.nort721.xpunisher.utils.console.LogType;
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 
 public class AddPunishmentMenu extends JFrame {
     private JPanel panel1;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField steamIdTextField;
+    private JTextField playerNameTextField;
     private JButton addButton;
-    private JComboBox comboBoxDuration;
+    private JComboBox comboBoxPunishment;
     private JTextField textFieldDuration;
     private JLabel durationLabel;
     private JButton cancelButton;
-    private JLabel usernameLabel;
+    private JLabel playerNameLabel;
     private JLabel steamIdLabel;
     private JLabel reasonLabel;
     private JLabel dateLabel;
     private JLabel punishmentLabel;
     private JComboBox reasonComboBox;
-    private JFormattedTextField dateFormattedTextField1;
+    private JTextField dateTextField;
 
     public AddPunishmentMenu() {
         super("XPunisher - Add Punishment");
@@ -40,7 +39,7 @@ public class AddPunishmentMenu extends JFrame {
         setPreferredSize(new Dimension(370, 440));
         setResizable(false);
 
-        XPunisher.LABELS.add(usernameLabel);
+        XPunisher.LABELS.add(playerNameLabel);
         XPunisher.LABELS.add(steamIdLabel);
         XPunisher.LABELS.add(dateLabel);
         XPunisher.LABELS.add(punishmentLabel);
@@ -52,9 +51,8 @@ public class AddPunishmentMenu extends JFrame {
         String[] reasonItems = {"RDM", "VDM", "NLR", "Revenge kill", "Team kill", "FailRP", "FearRP", "PowerGaming",
                 "None RP driving", "MetaGaming", "AutoEat", "CombatLog", "CopBaiting", "Farming", "Break character", "Job abuse", "Disrespect staff/player"};
 
-        dateFormattedTextField1.setFormatterFactory(new DefaultFormatterFactory(new DateFormatter()));
-
         if (TranslationUtil.currentLanguage == Language.HEBREW) {
+            Console.log("translating menu language to hebrew . . .", LogType.INFO);
             for (JLabel label : XPunisher.LABELS)
                 label.setText(TranslationUtil.convertToHebrew(label.getText()));
             for (JButton button : XPunisher.BUTTONS)
@@ -69,7 +67,7 @@ public class AddPunishmentMenu extends JFrame {
         textFieldDuration.setVisible(false);
 
         for (String str : punishmentItems)
-            comboBoxDuration.addItem(str);
+            comboBoxPunishment.addItem(str);
 
         for (String str : reasonItems)
             reasonComboBox.addItem(str);
@@ -77,15 +75,16 @@ public class AddPunishmentMenu extends JFrame {
         add(panel1);
         pack();
         setLocationRelativeTo(null);
+        //dateFormattedTextField1.setFormatterFactory(new DefaultFormatterFactory(new DateFormatter()));
         setVisible(true);
 
-        comboBoxDuration.addActionListener(new ActionListener() {
+        comboBoxPunishment.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean toggle;
 
-                toggle = String.valueOf(comboBoxDuration.getSelectedItem()).equals("ban")
-                        || String.valueOf(comboBoxDuration.getSelectedItem()).equals(TranslationUtil.convertToHebrew("ban"));
+                toggle = String.valueOf(comboBoxPunishment.getSelectedItem()).equals("ban")
+                        || String.valueOf(comboBoxPunishment.getSelectedItem()).equals(TranslationUtil.convertToHebrew("ban"));
 
                 durationLabel.setVisible(toggle);
                 textFieldDuration.setVisible(toggle);
@@ -95,10 +94,24 @@ public class AddPunishmentMenu extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (XPunisher.loggedUser.getAccessLevel().getAccessId() < AccessLevel.MANAGER.getAccessId()) {
-                    // make punishment pending
+                PlayerData playerData = new PlayerData(playerNameTextField.getText(), steamIdTextField.getText());
+
+                PunishType type;
+
+                if (textFieldDuration.isVisible()) {
+                    if (textFieldDuration.getText().equalsIgnoreCase("forever"))
+                        type = PunishType.PERMABAN;
                 }
-                // check if the player has a document, if he has then add punishment to document, if he doesn't create a new one
+
+                Punishment punishment = new Punishment(PunishType
+                        .getPunishTypeFromString(comboBoxPunishment.getSelectedItem() + ""),
+                        dateTextField.getText(), reasonComboBox.getSelectedItem() + "");
+
+                if (XPunisher.loggedUser.getAccessLevel().getAccessId() < AccessLevel.MANAGER.getAccessId()) {
+                    punishment.setPending(true);
+                }
+
+                MongoUtil.savePunishment(playerData, punishment);
             }
         });
 

@@ -1,9 +1,12 @@
 package com.nort721.xpunisher.data.enums;
 
-public enum SearchType {
-    BY_NAME("By name"), BY_STEAM_ID("By SteamID"), BY_REASON("By Punish Reason");
+import lombok.Getter;
 
-    private String name;
+public enum SearchType {
+    BY_NAME("By name"), BY_STEAM_ID("By SteamID");
+
+    @Getter
+    private final String name;
 
     SearchType(String name) {
         this.name = name;

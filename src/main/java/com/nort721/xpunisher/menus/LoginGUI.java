@@ -2,9 +2,11 @@ package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
 import com.nort721.xpunisher.data.LoggedUser;
-import com.nort721.xpunisher.data.enums.AccessLevel;
+import com.nort721.xpunisher.storage.MongoDB;
 import com.nort721.xpunisher.utils.MongoUtil;
 import com.nort721.xpunisher.utils.TranslationUtil;
+import com.nort721.xpunisher.utils.console.Console;
+import com.nort721.xpunisher.utils.console.LogType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +16,15 @@ import java.awt.event.ActionListener;
 public class LoginGUI extends JFrame {
 
     private JTextField usernameTextField;
-    private JPanel panel1;
+    private JPanel loginPanel;
     private JPasswordField passwordTextField;
     private JButton loginButton;
     private JButton languageButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
-    private JFrame frame;
     private ControlPanel controlPanel;
+
+    public static MongoDB mongoDB;
 
     public LoginGUI() {
         super(XPunisher.SOFTWARE_NAME + " " + XPunisher.VERSION);
@@ -29,11 +32,26 @@ public class LoginGUI extends JFrame {
         setPreferredSize(new Dimension(400, 250));
         setResizable(false);
 
-        // now add the panel
-        add(panel1);
+        add(loginPanel);
 
         pack();
         setLocationRelativeTo(null);
+
+        JOptionPane jop = new JOptionPane();
+        jop.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        jop.setMessage("Initializing app and Connecting to database . . .");
+        JDialog dialog = jop.createDialog(null, "XPunisher");
+
+        new Thread(new Runnable() {
+            public void run() {
+                dialog.setVisible(true);
+            }
+        }).start();
+
+        Console.log("connecting to database . . .", LogType.INFO);
+        mongoDB = new MongoDB();
+
+        dialog.dispose();
         setVisible(true);
 
         XPunisher.LABELS.add(usernameLabel);
@@ -53,13 +71,24 @@ public class LoginGUI extends JFrame {
                     return;
                 }
 
-                if (MongoUtil.isUserCorrect(username, password) != AccessLevel.NONE) {
+                if (username.equalsIgnoreCase("debug") && password.equalsIgnoreCase("console")) {
+                    XPunisher.executeDebugConsole();
+                    return;
+                }
+
+                Console.log("user " + username + " is trying to login", LogType.INFO);
+
+                String loginAttemptResult = MongoUtil.checkUserLogin(username, password);
+
+                if (loginAttemptResult.equalsIgnoreCase("approved")) {
+                    Console.log("user " + username + " has logged in successfully", LogType.INFO);
                     JOptionPane.showMessageDialog(null, "Welcome " + username, "Approved", JOptionPane.INFORMATION_MESSAGE);
-                    XPunisher.loggedUser = new LoggedUser(username, AccessLevel.ADMIN);
+                    XPunisher.loggedUser = new LoggedUser(username, MongoUtil.getUserAccessLevel(username));
                     setVisible(false);
                     controlPanel = new ControlPanel();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Incorrect username or password " + username, "Denied", JOptionPane.INFORMATION_MESSAGE);
+                    Console.log("user " + username + " has failed to login (" + loginAttemptResult + ")", LogType.INFO);
+                    JOptionPane.showMessageDialog(null, "Incorrect username or password", "Denied", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -68,17 +97,21 @@ public class LoginGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (languageButton.getText().equals("English")) {
+                    Console.log("changing UI language to hebrew", LogType.INFO);
                     languageButton.setText("Hebrew");
                     for (JLabel label : XPunisher.LABELS)
                         label.setText(TranslationUtil.convertToEnglish(label.getText()));
                     for (JButton button : XPunisher.BUTTONS)
                         button.setText(TranslationUtil.convertToEnglish(button.getText() + ""));
+                    Console.log("UI language has been changed to hebrew", LogType.INFO);
                 } else {
+                    Console.log("changing UI language to english", LogType.INFO);
                     languageButton.setText("English");
                     for (JLabel label : XPunisher.LABELS)
                         label.setText(TranslationUtil.convertToHebrew(label.getText()));
                     for (JButton button : XPunisher.BUTTONS)
                         button.setText(TranslationUtil.convertToHebrew(button.getText() + ""));
+                    Console.log("UI language has been changed to english", LogType.INFO);
                 }
             }
         });

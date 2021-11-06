@@ -1,27 +1,25 @@
 package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
-import com.nort721.xpunisher.data.LoggedUser;
-import com.nort721.xpunisher.data.PunishedData;
-import com.nort721.xpunisher.data.Punishment;
-import com.nort721.xpunisher.data.enums.AccessLevel;
+import com.nort721.xpunisher.data.PlayerData;
 import com.nort721.xpunisher.data.enums.Language;
 import com.nort721.xpunisher.data.enums.SearchType;
 import com.nort721.xpunisher.utils.MongoUtil;
 import com.nort721.xpunisher.utils.TranslationUtil;
+import com.nort721.xpunisher.utils.console.Console;
+import com.nort721.xpunisher.utils.console.LogType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class ControlPanel extends JFrame {
 
     private JPanel panel1;
     private JTextField textField1;
     private JButton searchButton;
-    private JComboBox comboBox1;
+    private JComboBox searchTypeCB;
     private JButton addPunishmentButton;
     private JLabel accessLevelLabel;
     private JLabel searchPlayerLabel;
@@ -37,9 +35,10 @@ public class ControlPanel extends JFrame {
         XPunisher.BUTTONS.add(searchButton);
         XPunisher.BUTTONS.add(addPunishmentButton);
 
-        String[] items = {"By name", "By SteamID", "By Punish Reason"};
+        String[] items = {"By name", "By SteamID"};
 
         if (TranslationUtil.currentLanguage == Language.HEBREW) {
+            Console.log("translating menu language to hebrew . . .", LogType.INFO);
             for (JLabel label : XPunisher.LABELS)
                 label.setText(TranslationUtil.convertToHebrew(label.getText()));
             for (JButton button : XPunisher.BUTTONS)
@@ -52,7 +51,7 @@ public class ControlPanel extends JFrame {
         accessLevelLabel.setText(accessLevelLabel.getText() + " " + XPunisher.loggedUser.getAccessLevel().getName());
 
         for (String str : items)
-            comboBox1.addItem(str);
+            searchTypeCB.addItem(str);
 
         add(panel1);
         pack();
@@ -63,24 +62,25 @@ public class ControlPanel extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Console.log("searching player data", LogType.INFO);
 
-                PunishedData punishedData = MongoUtil.getPunishedPlayerDataByUsername(textField1.getText(), SearchType.getByName(String.valueOf(comboBox1.getSelectedItem())));
+                PlayerData playerData = MongoUtil.getPlayerByName(textField1.getText(), SearchType.getByName(String.valueOf(searchTypeCB.getSelectedItem())));
 
-                punishedData = new PunishedData("Nort721", 100, "123456",
-                        Arrays.asList(new Punishment(), new Punishment()));
-
-                if (punishedData == null) {
+                if (playerData == null) {
+                    Console.log("could not find player data", LogType.INFO);
                     JOptionPane.showMessageDialog(null, "Player not found", "Operation failed", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
-                PlayerDataMenu playerDataMenu = new PlayerDataMenu(punishedData);
+                Console.log("opening player data . . .", LogType.INFO);
+                PlayerDataMenu playerDataMenu = new PlayerDataMenu(playerData);
             }
         });
 
         addPunishmentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Console.log("opening add punishment menu . . .", LogType.INFO);
                 AddPunishmentMenu addPunishmentMenu = new AddPunishmentMenu();
             }
         });
