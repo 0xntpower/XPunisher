@@ -5,6 +5,7 @@ import com.mongodb.client.model.Filters;
 import com.nort721.xpunisher.data.PlayerData;
 import com.nort721.xpunisher.data.Punishment;
 import com.nort721.xpunisher.data.enums.AccessLevel;
+import com.nort721.xpunisher.data.enums.PunishType;
 import com.nort721.xpunisher.data.enums.SearchType;
 import com.nort721.xpunisher.menus.LoginGUI;
 import com.nort721.xpunisher.utils.console.Console;
@@ -111,7 +112,12 @@ public class MongoUtil {
             playerDocument = new Document();
             playerDocument.put("playerName", playerData.getPlayerName());
             playerDocument.put("steamID", playerData.getSteamID());
-            playerDocument.put("points", PlayerData.TOTAL_POINTS - punishment.getType().getPoints());
+
+            int pointsToRemove = punishment.getType().getPoints();
+            if (punishment.getType() == PunishType.BAN && punishment.getDuration().equalsIgnoreCase("forever"))
+                pointsToRemove = 100;
+
+            playerDocument.put("points", Math.max(PlayerData.TOTAL_POINTS - pointsToRemove, 0));
 
             playerDocument.put(punishment.getDate(), punishment.toString());
 
@@ -121,7 +127,12 @@ public class MongoUtil {
             Console.log("Player already has a document, adding the new punishment", LogType.INFO);
 
             playerDocument.put(punishment.getDate(), punishment.toString());
-            playerDocument.replace("points", playerDocument.getInteger("points") - punishment.getType().getPoints());
+
+            int pointsToRemove = punishment.getType().getPoints();
+            if (punishment.getType() == PunishType.BAN && punishment.getDuration().equalsIgnoreCase("forever"))
+                pointsToRemove = 100;
+
+            playerDocument.replace("points", Math.max(playerDocument.getInteger("points") - pointsToRemove, 0));
 
             playersCollection.replaceOne(Filters.eq("playerName", playerData.getPlayerName()), playerDocument);
         }

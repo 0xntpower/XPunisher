@@ -11,18 +11,28 @@ public class Punishment {
     private final String reason;
     @Setter
     private boolean pending;
+    private final String duration;
 
     public Punishment(PunishType punishType, String date, String reason) {
         type = punishType;
         this.date = date;
         this.reason = reason;
+        duration = "none";
     }
 
-    public Punishment(PunishType punishType, String date, String reason, boolean pending) {
+    public Punishment(PunishType punishType, String date, String reason, String duration) {
+        type = punishType;
+        this.date = date;
+        this.reason = reason;
+        this.duration = duration;
+    }
+
+    public Punishment(PunishType punishType, String date, String reason, String duration, boolean pending) {
         type = punishType;
         this.date = date;
         this.pending = pending;
         this.reason = reason;
+        this.duration = duration;
     }
 
     @Override
@@ -31,6 +41,7 @@ public class Punishment {
                 "|date=" + date +
                 "|pending=" + pending +
                 "|reason=" + reason +
+                "|duration=" + duration +
                 "|";
     }
 
@@ -40,6 +51,7 @@ public class Punishment {
         String date = null;
         boolean pending = false;
         String reason = null;
+        String duration = null;
 
         StringBuilder key = new StringBuilder();
         StringBuilder value = new StringBuilder();
@@ -56,9 +68,13 @@ public class Punishment {
                     else {
                         if (key.toString().equals("pending"))
                             pending = value.toString().equals("true");
-                        else
+                        else {
                             if (key.toString().equals("reason"))
                                 reason = value.toString();
+                            else
+                                if (key.toString().equals("duration"))
+                                    duration = value.toString();
+                        }
                     }
                 }
 
@@ -80,6 +96,6 @@ public class Punishment {
             }
         }
 
-        return new Punishment(type, date, reason, pending);
+        return new Punishment(type, date, reason, duration, pending);
     }
 }

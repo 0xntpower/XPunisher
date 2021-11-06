@@ -96,16 +96,17 @@ public class AddPunishmentMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 PlayerData playerData = new PlayerData(playerNameTextField.getText(), steamIdTextField.getText());
 
-                PunishType type;
+                PunishType type = PunishType.getPunishTypeFromString(comboBoxPunishment.getSelectedItem() + "");
 
-                if (textFieldDuration.isVisible()) {
-                    if (textFieldDuration.getText().equalsIgnoreCase("forever"))
-                        type = PunishType.PERMABAN;
+                Punishment punishment;
+
+                if (type == PunishType.BAN && textFieldDuration.getText().length() > 0) {
+                    punishment = new Punishment(type, dateTextField.getText(),
+                            reasonComboBox.getSelectedItem() + "", textFieldDuration.getText());
+                } else {
+                    punishment = new Punishment(type, dateTextField.getText(),
+                            reasonComboBox.getSelectedItem() + "");
                 }
-
-                Punishment punishment = new Punishment(PunishType
-                        .getPunishTypeFromString(comboBoxPunishment.getSelectedItem() + ""),
-                        dateTextField.getText(), reasonComboBox.getSelectedItem() + "");
 
                 if (XPunisher.loggedUser.getAccessLevel().getAccessId() < AccessLevel.MANAGER.getAccessId()) {
                     punishment.setPending(true);
