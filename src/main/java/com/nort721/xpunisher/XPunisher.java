@@ -21,6 +21,16 @@ public class XPunisher {
     public static LoggedUser loggedUser;
 
     public static void main(String[] args) {
+
+//        JFrame.setDefaultLookAndFeelDecorated(true);
+//        SwingUtilities.invokeLater(() -> {
+//            try {
+//                UIManager.setLookAndFeel(new RadianceGraphiteLookAndFeel());
+//            } catch (Exception e) {
+//                System.out.println("Radiance Graphite failed to initialize");
+//            }
+//        });
+
         LoginGUI loginGUI = new LoginGUI();
         Image icon = Toolkit.getDefaultToolkit().getImage("D:\\XPunisher.png");
         loginGUI.setIconImage(icon);

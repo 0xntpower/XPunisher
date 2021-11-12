@@ -33,6 +33,10 @@ public class TranslationUtil {
         translations.add(new TextData("באן", "ban"));
         translations.add(new TextData("אזהרה", "warning"));
         translations.add(new TextData("קיק", "kick"));
+        translations.add(new TextData("שם משתמש או ססמה לא נכונים", "Incorrect username or password"));
+        translations.add(new TextData("ברוך הבא", "Welcome"));
+        translations.add(new TextData("", ""));
+        translations.add(new TextData("", ""));
         translations.add(new TextData("", ""));
         translations.add(new TextData("", ""));
     }

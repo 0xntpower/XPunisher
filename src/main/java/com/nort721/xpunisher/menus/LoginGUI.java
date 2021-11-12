@@ -39,7 +39,7 @@ public class LoginGUI extends JFrame {
 
         JOptionPane jop = new JOptionPane();
         jop.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        jop.setMessage("Initializing app and Connecting to database . . .");
+        jop.setMessage("Initializing app and connecting to database . . .");
         JDialog dialog = jop.createDialog(null, "XPunisher");
 
         new Thread(new Runnable() {

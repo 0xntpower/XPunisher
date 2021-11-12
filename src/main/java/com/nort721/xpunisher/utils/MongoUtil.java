@@ -143,10 +143,10 @@ public class MongoUtil {
     public PlayerData getPlayerByName(String searchData, SearchType searchType) {
         Document playerDocument = null;
 
-        if (searchType == SearchType.BY_NAME)
-            playerDocument = (Document) LoginGUI.mongoDB.getUsersCollection().find(Filters.eq("playerName", searchData)).first();
-        else if (searchType == SearchType.BY_STEAM_ID)
-            playerDocument = (Document) LoginGUI.mongoDB.getUsersCollection().find(Filters.eq("steamID", searchData)).first();
+        if (searchType == SearchType.BY_NAME) {
+            playerDocument = (Document) LoginGUI.mongoDB.getPlayersCollection().find(Filters.eq("playerName", searchData)).first();
+        } else if (searchType == SearchType.BY_STEAM_ID)
+            playerDocument = (Document) LoginGUI.mongoDB.getPlayersCollection().find(Filters.eq("steamID", searchData)).first();
 
         if (playerDocument == null) {
             return null;

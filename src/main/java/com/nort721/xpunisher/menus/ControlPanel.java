@@ -64,7 +64,7 @@ public class ControlPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Console.log("searching player data", LogType.INFO);
 
-                PlayerData playerData = MongoUtil.getPlayerByName(textField1.getText(), SearchType.getByName(String.valueOf(searchTypeCB.getSelectedItem())));
+                PlayerData playerData = MongoUtil.getPlayerByName(textField1.getText(), SearchType.valueOf(searchTypeCB.getSelectedItem() + ""));
 
                 if (playerData == null) {
                     Console.log("could not find player data", LogType.INFO);
