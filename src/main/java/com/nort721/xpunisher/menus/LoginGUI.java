@@ -2,6 +2,7 @@ package com.nort721.xpunisher.menus;
 
 import com.nort721.xpunisher.XPunisher;
 import com.nort721.xpunisher.data.LoggedUser;
+import com.nort721.xpunisher.data.enums.Language;
 import com.nort721.xpunisher.storage.MongoDB;
 import com.nort721.xpunisher.utils.MongoUtil;
 import com.nort721.xpunisher.utils.TranslationUtil;
@@ -82,13 +83,15 @@ public class LoginGUI extends JFrame {
 
                 if (loginAttemptResult.equalsIgnoreCase("approved")) {
                     Console.log("user " + username + " has logged in successfully", LogType.INFO);
-                    JOptionPane.showMessageDialog(null, "Welcome " + username, "Approved", JOptionPane.INFORMATION_MESSAGE);
+                    String msg = TranslationUtil.currentLanguage == Language.HEBREW ? TranslationUtil.convertToHebrew("Welcome") : "Welcome";
+                    JOptionPane.showMessageDialog(null, msg + " " + username, "Approved", JOptionPane.INFORMATION_MESSAGE);
                     XPunisher.loggedUser = new LoggedUser(username, MongoUtil.getUserAccessLevel(username));
                     setVisible(false);
                     controlPanel = new ControlPanel();
                 } else {
                     Console.log("user " + username + " has failed to login (" + loginAttemptResult + ")", LogType.INFO);
-                    JOptionPane.showMessageDialog(null, "Incorrect username or password", "Denied", JOptionPane.INFORMATION_MESSAGE);
+                    String msg = TranslationUtil.currentLanguage == Language.HEBREW ? TranslationUtil.convertToHebrew("Incorrect username or password") : "Incorrect username or password";
+                    JOptionPane.showMessageDialog(null, msg, "Denied", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

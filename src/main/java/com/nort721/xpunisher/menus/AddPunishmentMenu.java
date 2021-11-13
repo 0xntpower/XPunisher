@@ -113,6 +113,13 @@ public class AddPunishmentMenu extends JFrame {
                 }
 
                 MongoUtil.savePunishment(playerData, punishment);
+
+                String msg = "Punishment added to database successfully";
+
+                if (punishment.isPending())
+                    msg += " and is now pending for approval from higher management";
+
+                JOptionPane.showMessageDialog(null, msg, "Status", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
