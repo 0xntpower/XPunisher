@@ -3,7 +3,6 @@ package com.nort721.xpunisher;
 import com.nort721.xpunisher.data.LoggedUser;
 import com.nort721.xpunisher.menus.LoginGUI;
 import com.nort721.xpunisher.utils.console.Console;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,14 +22,14 @@ public class XPunisher {
 
     public static void main(String[] args) {
 
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(new WindowsLookAndFeel());
-            } catch (Exception e) {
-                System.out.println("Radiance Graphite failed to initialize");
-            }
-        });
+//        JFrame.setDefaultLookAndFeelDecorated(true);
+//        SwingUtilities.invokeLater(() -> {
+//            try {
+//                UIManager.setLookAndFeel(new WindowsLookAndFeel());
+//            } catch (Exception e) {
+//                System.out.println("Radiance Graphite failed to initialize");
+//            }
+//        });
 
         LoginGUI loginGUI = new LoginGUI();
         Image icon = Toolkit.getDefaultToolkit().getImage("D:\\XPunisher.png");

@@ -26,8 +26,8 @@ public class MongoDB {
             // read the database info from the config
             String host = "testdb.l47li.mongodb.net/TestDB";
             int port = 27017;
-            String username = "dbuser";
-            String password = "Bu2ys8CPBG2ejtD7";
+            String username = "11";
+            String password = "11";
             String databaseName = "TestDB";
 
             MongoClientURI uri = new MongoClientURI("mongodb+srv://dbuser:Bu2ys8CPBG2ejtD7@testdb.l47li.mongodb.net/TestDB?retryWrites=true&w=majority");

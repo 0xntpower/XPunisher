@@ -57,7 +57,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.yaml</pattern>
-                                    <shadedPattern>com.nort721.xpunisher.shaded</shadedPattern>
+                                    <shadedPattern>com.nort721.shaded</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -69,19 +69,18 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ideauidesigner-maven-plugin</artifactId>
                 <version>1.0-beta-1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>javac2</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <configuration>
-                    <fork>true</fork>
-                    <debug>true</debug>
-                    <failOnError>true</failOnError>
-                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.jetbrains.intellij.java</groupId>
+                        <artifactId>java-compiler-ant-tasks</artifactId>
+                        <version>212.5284.40</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.jetbrains.intellij.java</groupId>
+                        <artifactId>java-gui-forms-rt</artifactId>
+                        <version>212.5284.40</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
         </plugins>
@@ -93,22 +92,34 @@
         </resources>
     </build>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>intellij-repository</id>
+            <url>https://www.jetbrains.com/intellij-repository/releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>intellij-third-party</id>
+            <url>https://cache-redirector.jetbrains.com/intellij-dependencies</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
             <version>7.0.3</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.7</version>
+            <version>3.12.10</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

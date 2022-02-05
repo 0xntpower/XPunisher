@@ -21,6 +21,7 @@ com\nort721\xpunisher\storage\MongoDB.class
 com\nort721\xpunisher\menus\LoginGUI$3.class
 com\nort721\xpunisher\data\LoggedUser.class
 com\nort721\xpunisher\data\enums\AccessLevel.class
+com\nort721\xpunisher\utils\jnic.class
 com\nort721\xpunisher\utils\TranslationUtil.class
 com\nort721\xpunisher\menus\LoginGUI$1.class
 com\nort721\xpunisher\menus\LoginGUI.class

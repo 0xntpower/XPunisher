@@ -43,6 +43,7 @@ public class MongoUtil {
      * @return Incorrect username if the username does not exist, Incorrect password if the password is not
      * equal to the password thats saved for the username otherwise approved
      */
+    @jnic
     public String checkUserLogin(String username, String password) {
 
         Document userDocument = (Document) LoginGUI.mongoDB.getUsersCollection().find(Filters.eq("username", username)).first();
