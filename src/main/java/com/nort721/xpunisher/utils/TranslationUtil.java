@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class TranslationUtil {
 
     public static Language currentLanguage;
-    private final ArrayList<TextData> translations = new ArrayList<>();
+    private static final ArrayList<TextData> translations = new ArrayList<>();
 
     static {
         currentLanguage = Language.ENGLISH;
